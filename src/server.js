@@ -16,6 +16,9 @@ app.use(express.static("../assets/files"));
 console.log(__dirname);
 const staticDir = path.join(__dirname, "build");
 app.use(express.static(staticDir));
+app.use('/health',(req,res)=>{
+    res.send("OK from server").status(200);
+})
 
 // bodyparser
 app.use(bodyParser.urlencoded({ extended: false }));
