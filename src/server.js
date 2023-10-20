@@ -12,9 +12,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("../assets"));
 app.use(express.static("../assets/files"));
+app.use(express.static("../assets/build"));
 // app.use("files", express.static(__dirname + "/assets/files"));
 console.log("path",__dirname + '/build');
-app.use(express.static(path.join(__dirname+ "/build")));
+// app.use(express.static(path.join(__dirname + "/build")));
 app.use('/health',(req,res)=>{
     res.send("OK from server").status(200);
 })
