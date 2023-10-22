@@ -23,7 +23,7 @@ app.use('/health',(req,res)=>{
 // bodyparser
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/recruiter", recruiterRouter);
+app.use("/api/recruiter", recruiterRouter);
 app.use("/api/candidate", candidateRouter);
 app.use("/api/admin", adminRouter);
 
