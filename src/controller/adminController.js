@@ -1,8 +1,18 @@
 const { recruiterSignUp } = require("../model/recruiterModel");
 const { defineAdmin } = require("../model/adminModel");
+const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const secertKey =
   "192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf";
+
+  const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: "ahmadyounas2k18@gmail.com",
+      pass: "rdopwhmnfkfkgybw",
+    },
+  });
+
 exports.GetRecuriter = async (req, res) => {
   await recruiterSignUp
     .findAll({ where: { check: "0" } })
@@ -19,25 +29,43 @@ exports.UpdateRecuriter = async (req, res) => {
   const id = req.body.uid;
   try {
     const token = req.headers.authorization;
+    console.log("token",token);
     if (!token) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
     jwt.verify(token, secertKey, (err, decoded) => {
       if (err) {
+        console.log(err);
         return res.status(403).json({ message: "Forbidden" });
       }
     });
+    console.log("some thing");
     const user = await recruiterSignUp.findByPk(id);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
     user.check = "1";
+    console.log("userEmail",user.userEmail);
     await user.save();
-    await recruiterSignUp.findAll({ where: { check: "0" } }).then((data) => {
-      const jsonData = data.map((item) => item.toJSON());
-      res.status(200).json(jsonData);
+    const mailOptions = {
+      from: "ahmadmirza2k18@gmail.com",
+      to: user.userEmail,
+      subject: "Account Verifiy Successfully",
+      text: "Admin Approve Your Account, You Can login there",
+    };
+    transporter.sendMail(mailOptions, (error) => {
+      if (error) {
+        console.error("Error sending email:", error);
+        return res.status(500).json({ message: "Failed to send email" });
+      }
+      res.status(201).json({ message: "mail successfully send" });
     });
+
+    // await recruiterSignUp.findAll({ where: { check: "0" } }).then((data) => {
+    //   const jsonData = data.map((item) => item.toJSON());
+    //   res.status(200).json(jsonData);
+    // });
   } catch (error) {
     console.error("Error updating username:", error);
     return res.status(500).json({ error: "Internal server error" });
@@ -50,7 +78,7 @@ exports.AdminLogin = async (req, res) => {
     console.log("userEmail", email);
     const user = await defineAdmin.findOne({ where: { email } });
     if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(404).json({ error: "Invalid credentials" });
     }
 
     if (password !== user.password) {

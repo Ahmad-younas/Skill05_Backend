@@ -53,8 +53,12 @@ exports.recruiterLogin = async (req, res) => {
 };
 
 exports.recruiterSignUp = async (req, res) => {
-  const { fullName, userName, userEmail, password } = req.body;
-  const user = await candidateSignUp.findOne({ where: { userEmail } });
+  const fullName = req.body.name;
+  const userName = req.body.username;
+  const userEmail = req.body.email;
+  const password = req.body.password;
+console.log("Email", userEmail);
+  const user = await recruiterSignUp.findOne({ where: { userEmail } });
   if (user) {
     return res.status(409).json({ error: "credentials already Exist" });
   }

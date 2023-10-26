@@ -10,21 +10,30 @@ const path = require("path");
 // cors
 app.use(cors());
 app.use(express.json());
-app.use(express.static("../assets"));
-app.use(express.static("../assets/files"));
-app.use(express.static("../assets/build"));
-// app.use("files", express.static(__dirname + "/assets/files"));
-console.log("path",__dirname + '/build');
-// app.use(express.static(path.join(__dirname + "build")));
-app.use('/health',(req,res)=>{
-    res.send("OK from server").status(200);
-})
 
-// bodyparser
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/api/recruiter", recruiterRouter);
 app.use("/api/candidate", candidateRouter);
 app.use("/api/admin", adminRouter);
+
+app.use('/health',(req,res)=>{
+    res.send("OK from server").status(200);
+})
+
+
+app.use(express.static("../assets"));
+app.use(express.static("../assets/files"));
+app.use(express.static("../assets/build"));
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../assets/build', 'index.html'));
+  });
+  
+// app.use("files", express.static(__dirname + "/assets/files"));
+// console.log("path",__dirname + '/build');
+// app.use(express.static(path.join(__dirname + "build")));
+
+// bodyparser
+
 
 module.exports = app;
