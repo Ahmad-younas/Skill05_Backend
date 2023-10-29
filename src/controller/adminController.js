@@ -28,18 +28,6 @@ exports.GetRecuriter = async (req, res) => {
 exports.UpdateRecuriter = async (req, res) => {
   const id = req.body.uid;
   try {
-    const token = req.headers.authorization;
-    console.log("token",token);
-    if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    jwt.verify(token, secertKey, (err, decoded) => {
-      if (err) {
-        console.log(err);
-        return res.status(403).json({ message: "Forbidden" });
-      }
-    });
     console.log("some thing");
     const user = await recruiterSignUp.findByPk(id);
     if (!user) {
@@ -59,13 +47,15 @@ exports.UpdateRecuriter = async (req, res) => {
         console.error("Error sending email:", error);
         return res.status(500).json({ message: "Failed to send email" });
       }
-      res.status(201).json({ message: "mail successfully send" });
     });
 
-    // await recruiterSignUp.findAll({ where: { check: "0" } }).then((data) => {
-    //   const jsonData = data.map((item) => item.toJSON());
-    //   res.status(200).json(jsonData);
-    // });
+    await recruiterSignUp.findAll({ where: { check: "0" } }).then((data)=>{
+      const jsonData = data.map((item) => item.toJSON());
+      res.status(200).json(jsonData);
+    }).catch((error)=>{
+      res.status(500).json({ error: "An error occurred while fetching data." });
+      console.log("error", error);
+    })
   } catch (error) {
     console.error("Error updating username:", error);
     return res.status(500).json({ error: "Internal server error" });

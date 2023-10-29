@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const jwtAuth = require('../JwtAuth');
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "../assets/files"); // The destination folder where files will be stored
