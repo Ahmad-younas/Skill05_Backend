@@ -162,8 +162,8 @@ exports.recruiterProfile = async (req, res) => {
 };
 
 exports.getRecruiterProfile = async (req, res) => {
-  await recruiterProfile
-    .findAll()
+  await recruiterJobPost
+    .find(where)
     .then((data) => {
       const jsonData = data.map((item) => item.toJSON());
       res.status(200).json(jsonData);
@@ -197,4 +197,16 @@ exports.UpdateProfileInfo = async (req, res) => {
   } else {
     res.status(404).json({ message: "User not found" });
   }
+};
+exports.getJobDetials = async (req, res) => {
+  const id = req.params.id;
+  console.log("id",id);
+  await recruiterJobPost
+    .findByPk(id)
+    .then((data) => {
+      res.status(200).json(data.dataValues);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
 };

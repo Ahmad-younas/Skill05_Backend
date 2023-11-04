@@ -27,4 +27,5 @@ router.post("/recruiterprofile", recruiterController.recruiterProfile);
 router.get("/getpostedJob", recruiterController.GetPostedJob);
 router.get("/getprofileInfo", recruiterController.getRecruiterProfile);
 router.put("/updateProfileInfo", recruiterController.UpdateProfileInfo);
+router.get("/getJobDetail/:id",recruiterController.getJobDetials);
 module.exports = router;
