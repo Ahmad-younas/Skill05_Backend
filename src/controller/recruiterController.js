@@ -80,14 +80,6 @@ console.log("Email", userEmail);
   }
 };
 exports.recruiterPostJob = async (req, res) => {
-  const token = req.headers.authorization.split(" ")[1];
-  console.log("token", token);
-  jwt.verify(token, secertKey, (err, decoded) => {
-    console.log(decoded);
-    if (err) {
-      return res.status(403).json({ message: "Token is not valid" });
-    }
-  });
   console.log(req.body);
   const JobTitle = req.body.jobTitle;
   const companyLogo = req.file.filename;
@@ -173,21 +165,6 @@ exports.getRecruiterProfile = async (req, res) => {
     });
 };
 exports.UpdateProfileInfo = async (req, res) => {
-  const token = req.headers.authorization.split(" ")[1];
-  let uid = 0;
-  let id = "";
-
-  const userData = req.body;
-  console.log(req.body);
-  jwt.verify(token, secertKey, (err, decoded) => {
-    console.log(decoded.userId);
-    uid = decoded.userId;
-    id = uid.toString();
-
-    if (err) {
-      return res.status(403).json({ message: "Token is not valid" });
-    }
-  });
   const [updatedRows] = await recruiterSignUp.update(req.body, {
     where: { id: "4" },
   });

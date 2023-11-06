@@ -22,15 +22,6 @@ exports.getData = async (req, res) => {
 
 exports.candidateapplyjob = async (req, res) => {
   console.log("DataInside");
-  console.log(req.file.filename);
-  const token = req.headers.authorization.split(" ")[1];
-  console.log("token", token);
-  jwt.verify(token, secertKey, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: "Token is not valid" });
-    }
-  });
-
   const Name = req.body.name;
   const Email = req.body.email;
   const resume = req.file.filename;
@@ -120,7 +111,7 @@ exports.forgetPassword = async (req, res) => {
   const token = jwt.sign({ email: user.userEmail }, secertKey, {
     expiresIn: "1h", // Token expires in 1 hour
   });
-  const resetLink = `http://localhost:3000/resetpassword?token=${token}`;
+  const resetLink = `http://146.190.36.31:3001/resetpassword?token=${token}`;
   const mailOptions = {
     from: "ahmadyounas2k18@gmail.com",
     to: user.userEmail,
@@ -137,11 +128,8 @@ exports.forgetPassword = async (req, res) => {
 };
 
 exports.resetPassword = async (req, res) => {
-  const { token, password } = req.body;
+  const { password } = req.body;
   try {
-    // Verify the token
-    const decoded = jwt.verify(token, secertKey);
-    console.log("decode", decoded);
 
     // Find the user by email (replace with your database query)
     const user = await candidateSignUp.find(
@@ -152,10 +140,6 @@ exports.resetPassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Hash the new password and update the user's password in the database
-    const hashedPassword = bcrypt.hashSync(password, 10); // Use bcrypt for hashing
-    // user.password = hashedPassword;
-
     res.json({ message: "Password reset successful" });
   } catch (error) {
     console.error("Error resetting password:", error);
@@ -163,14 +147,7 @@ exports.resetPassword = async (req, res) => {
   }
 };
 exports.getAllCandidate = async (req, res) => {
-  const { token, password } = req.body;
   try {
-    // jwt.verify(token, secertKey, (err, decoded) => {
-    //   if (err) {
-    //     return res.status(403).json({ message: "Token is not valid" });
-    //   }
-    // });
-
     await candidateapplyjob
       .findAll({ where: { shortList: "0" } })
       .then((data) => {

@@ -16,6 +16,34 @@ const defineAdmin = sequelize.define(
     timestamps: false,
   }
 );
+const AddCategory = sequelize.define(
+  "addCategory",
+  {
+    category:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
+  },
+  {
+    timestamps: false,
+  }
+)
+
+const AddCountry = sequelize.define(
+  "addCountry",
+  {
+    category:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
+  },
+  {
+    timestamps: false,
+  }
+)
+
 module.exports = {
   defineAdmin,
+  AddCategory,
+  AddCountry
 };

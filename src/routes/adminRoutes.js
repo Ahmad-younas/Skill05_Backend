@@ -6,5 +6,7 @@ const jwtAuth = require('../JwtAuth');
 router.get("/recuriter", adminController.GetRecuriter);
 router.put("/updaterecuriter", jwtAuth, adminController.UpdateRecuriter);
 router.post("/loginadmin", adminController.AdminLogin);
+router.post("/addcountry",adminController.AddCountry);
+router.post("/addcategory",adminController.AddCategory);
 
 module.exports = router;

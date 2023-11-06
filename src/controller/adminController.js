@@ -84,3 +84,11 @@ exports.AdminLogin = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.AddCountry = async (req,res) =>{
+  console.log(req.body);
+}
+exports.AddCategory = async (req,res)=>{
+  console.log("QWERTY");
+  console.log(req.body.country);
+  res.status(200).send("ok")
+}

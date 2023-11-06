@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const recruiterController = require("../controller/recruiterController");
+const JwtAuth = require("../JwtAuth");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -20,12 +21,12 @@ router.post("/recruiterLogin", recruiterController.recruiterLogin);
 router.post("/recruiterSignUp", recruiterController.recruiterSignUp);
 router.post(
   "/recruiterpostjob",
-  upload.single("companyLogo"),
+  upload.single("companyLogo"),JwtAuth,
   recruiterController.recruiterPostJob
 );
-router.post("/recruiterprofile", recruiterController.recruiterProfile);
-router.get("/getpostedJob", recruiterController.GetPostedJob);
-router.get("/getprofileInfo", recruiterController.getRecruiterProfile);
-router.put("/updateProfileInfo", recruiterController.UpdateProfileInfo);
-router.get("/getJobDetail/:id",recruiterController.getJobDetials);
+router.post("/recruiterprofile", JwtAuth, recruiterController.recruiterProfile);
+router.get("/getpostedJob", JwtAuth, recruiterController.GetPostedJob);
+router.get("/getprofileInfo", JwtAuth, recruiterController.getRecruiterProfile);
+router.put("/updateProfileInfo", JwtAuth, recruiterController.UpdateProfileInfo);
+router.get("/getJobDetail/:id", JwtAuth,recruiterController.getJobDetials);
 module.exports = router;

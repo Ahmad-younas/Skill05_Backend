@@ -19,17 +19,17 @@ router.post("/candidateLogin", candidateController.candidateLogin);
 router.post("/candidateSignUp", candidateController.candidateSignup);
 router.post(
   "/candidateapplyJob",
-  upload.single("resume"),
+  upload.single("resume"),jwtAuth,
   candidateController.candidateapplyjob
 );
 router.post("/forgetpassword", candidateController.forgetPassword);
 router.post("/resetpassword", candidateController.resetPassword);
-router.get("/getallcandidate", candidateController.getAllCandidate);
-router.put("/api/shortList", candidateController.ShortList);
+router.get("/getallcandidate",jwtAuth, candidateController.getAllCandidate);
+router.put("/shortList",jwtAuth, candidateController.ShortList);
 router.get(
-  "/getshortlistedcandidate",
+  "/getshortlistedcandidate",jwtAuth,
   candidateController.GetShortListedCandidate
 );
-router.post("/sendInvitation", candidateController.SendInvitation);
+router.post("/sendInvitation",jwtAuth, candidateController.SendInvitation);
 
 module.exports = router;
