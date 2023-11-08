@@ -4,6 +4,7 @@ const secretKey = "192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823b
 
 function verifyToken(req, res, next) {
   const tokenWithBearer = req.headers.authorization;
+  console.log("tokenWithBearer", tokenWithBearer);
   const tokenParts = tokenWithBearer.split(' ');
   console.log("tokenParts",tokenParts);
   const token = tokenParts[1];

@@ -25,7 +25,7 @@ router.post(
   recruiterController.recruiterPostJob
 );
 router.post("/recruiterprofile", JwtAuth, recruiterController.recruiterProfile);
-router.get("/getpostedJob", JwtAuth, recruiterController.GetPostedJob);
+router.get("/getpostedJob", recruiterController.GetPostedJob);
 router.get("/getprofileInfo", JwtAuth, recruiterController.getRecruiterProfile);
 router.put("/updateProfileInfo", JwtAuth, recruiterController.UpdateProfileInfo);
 router.get("/getJobDetail/:id", JwtAuth,recruiterController.getJobDetials);
