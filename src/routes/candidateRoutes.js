@@ -25,7 +25,7 @@ router.post(
 router.post("/forgetpassword", candidateController.forgetPassword);
 router.post("/resetpassword", candidateController.resetPassword);
 router.get("/getallcandidate",jwtAuth, candidateController.getAllCandidate);
-router.put("/shortList",jwtAuth, candidateController.ShortList);
+router.put("/shortList", candidateController.ShortList);
 router.get(
   "/getshortlistedcandidate",jwtAuth,
   candidateController.GetShortListedCandidate

@@ -147,6 +147,7 @@ exports.resetPassword = async (req, res) => {
   }
 };
 exports.getAllCandidate = async (req, res) => {
+  console.log(req.headers);
   try {
     await candidateapplyjob
       .findAll({ where: { shortList: "0" } })
