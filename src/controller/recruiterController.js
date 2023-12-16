@@ -25,9 +25,8 @@ exports.postData = async (req, res) => {};
 
 exports.recruiterLogin = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const userEmail = email;
-    console.log(password);
+    const { password } = req.body;
+    const userEmail = req.body.userEmail;
     const user = await recruiterSignUp.findOne({ where: { userEmail } });
 
     if (!user) {
@@ -35,7 +34,7 @@ exports.recruiterLogin = async (req, res) => {
     }
 
     if (password !== user.password) {
-      return res.status(401).json({ error: "Password Invalid" });
+      return res.status(402).json({ error: "Password Invalid" });
     }
 
     if (user.check == "1") {
@@ -53,11 +52,15 @@ exports.recruiterLogin = async (req, res) => {
 };
 
 exports.recruiterSignUp = async (req, res) => {
+  console.log(req.body);
   const fullName = req.body.name;
   const userName = req.body.username;
   const userEmail = req.body.email;
   const password = req.body.password;
 console.log("Email", userEmail);
+console.log("Name", userName);
+console.log("fullName", fullName);
+console.log("password", password);
   const user = await recruiterSignUp.findOne({ where: { userEmail } });
   if (user) {
     return res.status(409).json({ error: "credentials already Exist" });
@@ -82,7 +85,7 @@ console.log("Email", userEmail);
 exports.recruiterPostJob = async (req, res) => {
   console.log(req.body);
   const JobTitle = req.body.jobTitle;
-  const companyLogo = req.file.filename;
+  const companyLogo = req.body.company;
   const City = req.body.city;
   const Country = req.body.country;
   const JobDescription = req.body.jobDescription;
@@ -155,7 +158,7 @@ exports.recruiterProfile = async (req, res) => {
 
 exports.getRecruiterProfile = async (req, res) => {
   await recruiterJobPost
-    .find(where)
+    .find({where:{id:1}})
     .then((data) => {
       const jsonData = data.map((item) => item.toJSON());
       res.status(200).json(jsonData);

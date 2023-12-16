@@ -24,7 +24,7 @@ exports.candidateapplyjob = async (req, res) => {
   console.log("DataInside");
   const Name = req.body.name;
   const Email = req.body.email;
-  const resume = req.file.filename;
+  const resume = "sbfzbvzxjbvzxnvb.pdf";
   const phonenumber = req.body.phoneNumber;
   const education = req.body.education;
   const shortList = "0";
@@ -49,7 +49,8 @@ exports.candidateapplyjob = async (req, res) => {
 
 exports.candidateLogin = async (req, res) => {
   try {
-    const userEmail = req.body.email;
+
+    const userEmail = req.body.userEmail;
     const password = req.body.password;
     console.log("userEmail", userEmail);
     const user = await candidateSignUp.findOne({ where: { userEmail } });
@@ -61,14 +62,14 @@ exports.candidateLogin = async (req, res) => {
 
     // const isPasswordValid = await bcrypt.compare(password, user.password);
     if (password !== user.password) {
-      return res.status(401).json({ error: "Password Invalid" });
+      return res.status(402).json({ error: "Password Invalid" });
     }
 
     const token = jwt.sign({ userId: user.id }, secertKey, {
       expiresIn: "1h",
     });
 
-    res.status(200).json({ token });
+    res.status(200).json({ token,user });
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -147,7 +148,7 @@ exports.resetPassword = async (req, res) => {
   }
 };
 exports.getAllCandidate = async (req, res) => {
-  console.log(req.headers);
+  console.log("request",req.headers);
   try {
     await candidateapplyjob
       .findAll({ where: { shortList: "0" } })
@@ -186,6 +187,8 @@ exports.ShortList = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
 exports.GetShortListedCandidate = async (req, res) => {
   try {
     await candidateapplyjob
@@ -204,6 +207,7 @@ exports.GetShortListedCandidate = async (req, res) => {
 };
 exports.SendInvitation = async (req, res) => {
   const email = req.body.email;
+  console.log("Inside send Invitation");
   const id = req.body.id;
   const mailOptions = {
     from: "ahmadyounas2k18@gmail.com",

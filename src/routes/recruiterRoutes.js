@@ -21,12 +21,12 @@ router.post("/recruiterLogin", recruiterController.recruiterLogin);
 router.post("/recruiterSignUp", recruiterController.recruiterSignUp);
 router.post(
   "/recruiterpostjob",
-  upload.single("companyLogo"),JwtAuth,
+  upload.single("companyLogo"),
   recruiterController.recruiterPostJob
 );
-router.post("/recruiterprofile", JwtAuth, recruiterController.recruiterProfile);
+router.post("/recruiterprofile", recruiterController.recruiterProfile);
 router.get("/getpostedJob", recruiterController.GetPostedJob);
-router.get("/getprofileInfo", JwtAuth, recruiterController.getRecruiterProfile);
+router.get("/getprofileInfo", recruiterController.getRecruiterProfile);
 router.put("/updateProfileInfo", JwtAuth, recruiterController.UpdateProfileInfo);
-router.get("/getJobDetail/:id", JwtAuth,recruiterController.getJobDetials);
+router.get("/getJobDetail/:id",recruiterController.getJobDetials);
 module.exports = router;

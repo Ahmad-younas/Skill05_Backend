@@ -8,7 +8,12 @@ const bodyParser = require("body-parser");
 const app = express();
 const path = require("path");
 // cors
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3001/api/recruiter/getpostedJob', // Replace with the origin of your Flutter app
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Enable credentials (e.g., cookies, authorization headers)
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: false }));
