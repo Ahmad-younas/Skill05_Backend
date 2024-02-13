@@ -190,3 +190,13 @@ exports.getJobDetials = async (req, res) => {
       res.status(500).json({ error: error.message });
     });
 };
+
+exports.getPostedJobByEmail = async (req,res) => {
+  console.log("Yes in");
+  const id = req.query.id;
+  console.log(`Received ID: ${id}`);
+  // await recruiterJobPost.findAll({where:{
+  //   email:
+  // }})
+  res.status(200).json({message: "ok"});
+}
