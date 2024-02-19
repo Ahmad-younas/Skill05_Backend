@@ -157,11 +157,17 @@ exports.recruiterProfile = async (req, res) => {
 };
 
 exports.getRecruiterProfile = async (req, res) => {
+  const id = req.query.id;
+  console.log("id",id);
   await recruiterJobPost
-    .find({where:{id:1}})
+    .findOne({where:{
+      id:id
+    }})
     .then((data) => {
-      const jsonData = data.map((item) => item.toJSON());
-      res.status(200).json(jsonData);
+      console.log("-------------------------------------------------");
+      console.log(data);
+      console.log("-------------------------------------------------");
+      res.status(200).json(data);
     })
     .catch((error) => {
       res.status(500).json({ error: error });
@@ -192,11 +198,10 @@ exports.getJobDetials = async (req, res) => {
 };
 
 exports.getPostedJobByEmail = async (req,res) => {
-  console.log("Yes in");
   const id = req.query.id;
-  console.log(`Received ID: ${id}`);
-  // await recruiterJobPost.findAll({where:{
-  //   email:
-  // }})
-  res.status(200).json({message: "ok"});
+  await recruiterJobPost.findAll({where:{recuriterID:id}}).then((data)=>{
+    const jsonData = data.map((item) => item.toJSON());
+    res.status(200).json(jsonData);
+  });
+  // res.status(200).json({data: data});
 }

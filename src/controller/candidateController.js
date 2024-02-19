@@ -195,6 +195,7 @@ exports.GetShortListedCandidate = async (req, res) => {
       .findAll({ where: { shortList: "1", InterviewCall: "0" } })
       .then((data) => {
         const jsonData = data.map((item) => item.toJSON());
+        console.log("JASONData" + jsonData);
         res.status(200).json(jsonData);
       })
       .catch((error) => {
